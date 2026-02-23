@@ -533,8 +533,8 @@
     <div class="format-grid">
       <div class="format-card">
         <div class="format-era">Pre-1994 · Vintage</div>
-        <div class="format-example">No number present</div>
-        <div class="format-desc">Vintage bags from this era have only the creed text stamped into the leather — no style number. Authenticity is verified by leather quality, hardware, and craftsmanship alone.</div>
+        <div class="format-example">191-0630 &nbsp;·&nbsp; 532-7590 &nbsp;·&nbsp; 8060-979</div>
+        <div class="format-desc">1970s bags used 3 digits – 4 digits. 1980s bags used 4 digits – 3 digits. These are true unique serial numbers with no style or production info encoded — the numbers cannot be looked up in a style database. Earlier bags may have no number at all.</div>
       </div>
       <div class="format-card">
         <div class="format-era">1994 – 2006 · Classic</div>
@@ -778,16 +778,46 @@
       ];
     }
 
-    // ── DIGITS ONLY ──────────────────────────────────────────────────────────
+    // ── VINTAGE 1970s: 3 digits – 4 digits (e.g. 191-0630, 080-7042) ──────────
+    else if (/^\d{3}-\d{4}$/.test(cleaned)) {
+      verdict = 'authentic';
+      title = 'Format Checks Out — Vintage 1970s';
+      era = 'Vintage Era · 1970s';
+      desc = 'This matches Coach\'s original serial number format used in the 1970s: three digits, a dash, and four digits. These were true unique serial numbers — they do not encode production or style information, so the numbers themselves cannot be cross-referenced to a bag style. Authenticity must rely entirely on physical inspection.';
+      checks = [
+        '✔ This is a recognized genuine Coach serial number format from the 1970s',
+        '✔ Creed text of this era reads "Made in New York City, U.S.A." — verify this matches',
+        '✔ Leather should be thick, supple, and have a rich natural smell — not plastic or chemical',
+        '✔ Stitching should be tight and even; hardware should feel solid and heavy',
+        '✔ These bags have no style number — do not expect the digits to match any style database'
+      ];
+    }
+
+    // ── VINTAGE 1980s: 4 digits – 3 digits (e.g. 8060-979) ──────────────────
+    else if (/^\d{4}-\d{3}$/.test(cleaned)) {
+      verdict = 'authentic';
+      title = 'Format Checks Out — Vintage 1980s';
+      era = 'Vintage Era · 1980s';
+      desc = 'This matches Coach\'s serial number format used in the 1980s: four digits, a dash, and three digits. Like the 1970s format, these are true unique identifiers only — they carry no style or production information. Authenticity must rely on physical inspection of the bag itself.';
+      checks = [
+        '✔ This is a recognized genuine Coach serial number format from the 1980s',
+        '✔ Creed text of this era reads "Made in United States" (wording changed from NYC in the mid-80s)',
+        '✔ Leather should feel substantial and supple with a natural smell — not synthetic',
+        '✔ Stitching should be uniform and tight; hardware solid brass or nickel',
+        '✔ These bags have no style number — the digits are a unique identifier only, not a style code'
+      ];
+    }
+
+    // ── TRANSITIONAL / OTHER DIGITS-ONLY ─────────────────────────────────────
     else if (/^\d{4}-\d{4}$/.test(cleaned) || /^\d{5,8}$/.test(cleaned)) {
       verdict = 'uncertain';
       title = 'Digits-Only Format — Inspect Closely';
-      era = 'Possibly vintage or atypical production';
-      desc = 'A purely numeric code is uncommon for post-1994 Coach bags. It may appear on very early transitional pieces or atypical product lines. Careful physical inspection is especially important here.';
+      era = 'Possibly vintage or transitional era';
+      desc = 'A purely numeric code that doesn\'t match the known 1970s (3-4) or 1980s (4-3) formats. It may appear on transitional pieces from the late 1980s to early 1990s. Careful physical inspection is especially important here.';
       checks = [
-        '⚠ Digit-only format is uncommon — inspect the bag carefully in person',
-        '✔ Vintage bags before 1994 often had no serial number at all',
-        '✔ Genuine Coach leather feels supple and has a subtle natural smell — not plastic',
+        '⚠ This exact digit format is uncommon — inspect the bag carefully in person',
+        '✔ Genuine vintage Coach leather feels thick and supple with a natural smell — not plastic',
+        '✔ Creed text should say "Made in United States" or "Made in New York City, U.S.A."',
         '✔ Stitching should be uniform at roughly 8–10 stitches per inch with matching thread'
       ];
     }
