@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Coach Bag Authenticator</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -24,7 +24,7 @@
   body {
     background-color: var(--dark);
     color: var(--cream);
-    font-family: 'Cormorant Garamond', serif;
+    font-family: Arial, sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
   }
@@ -64,23 +64,23 @@
   }
 
   .brand-mark h1 {
-    font-family: 'Playfair Display', serif;
+    font-family: Arial, sans-serif;
     font-size: clamp(2.2rem, 6vw, 3.4rem);
-    font-weight: 400;
+    font-weight: bold;
     color: var(--cream);
     line-height: 1.1;
     margin-bottom: 8px;
   }
 
   .brand-mark h1 em {
-    font-style: italic;
+    font-style: normal;
     color: var(--gold-light);
   }
 
   .brand-mark .subtitle {
     font-size: 0.95rem;
-    color: var(--warm-gray);
-    letter-spacing: 0.1em;
+    color: #ffffff;
+    letter-spacing: 0.05em;
     margin-top: 12px;
   }
 
@@ -137,11 +137,12 @@
     background: rgba(0,0,0,0.3);
     border: 1px solid rgba(184,144,42,0.25);
     border-radius: 3px;
-    color: var(--cream);
-    font-family: 'Playfair Display', serif;
-    font-size: 1.6rem;
-    font-style: italic;
-    letter-spacing: 0.12em;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: bold;
+    letter-spacing: 0.1em;
     padding: 18px 22px;
     text-align: center;
     outline: none;
@@ -149,8 +150,9 @@
   }
 
   .serial-input::placeholder {
-    color: rgba(196,168,130,0.25);
-    font-style: italic;
+    color: rgba(255,255,255,0.3);
+    font-style: normal;
+    font-weight: normal;
   }
 
   .serial-input:focus {
@@ -160,8 +162,8 @@
 
   .input-hint {
     margin-top: 12px;
-    font-size: 0.82rem;
-    color: var(--warm-gray);
+    font-size: 0.85rem;
+    color: #ffffff;
     text-align: center;
     line-height: 1.6;
   }
@@ -174,10 +176,10 @@
     border: none;
     border-radius: 3px;
     color: var(--dark);
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 0.35em;
+    font-family: Arial, sans-serif;
+    font-size: 0.9rem;
+    font-weight: bold;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     cursor: pointer;
     transition: background 0.25s, transform 0.15s;
@@ -248,22 +250,23 @@
   .uncertain .dot { background: #d4a843; box-shadow: 0 0 8px rgba(212,168,67,0.6); }
 
   .result-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.55rem;
+    font-family: Arial, sans-serif;
+    font-size: 1.4rem;
+    font-weight: bold;
     margin-bottom: 10px;
-    color: var(--cream);
+    color: #ffffff;
   }
 
   .result-era {
     font-size: 0.88rem;
-    color: var(--tan);
+    color: #ffffff;
     margin-bottom: 20px;
     letter-spacing: 0.04em;
   }
 
   .result-details {
     font-size: 0.95rem;
-    color: rgba(245,240,232,0.75);
+    color: #ffffff;
     line-height: 1.8;
   }
 
@@ -279,7 +282,7 @@
     align-items: flex-start;
     gap: 12px;
     font-size: 0.9rem;
-    color: rgba(245,240,232,0.7);
+    color: #ffffff;
     line-height: 1.5;
   }
 
@@ -295,9 +298,10 @@
   }
 
   .guide-heading {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.3rem;
-    color: var(--cream);
+    font-family: Arial, sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ffffff;
     margin-bottom: 24px;
     display: flex;
     align-items: center;
@@ -337,16 +341,17 @@
   }
 
   .format-example {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 1.25rem;
-    color: var(--cream);
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #ffffff;
     margin-bottom: 8px;
   }
 
   .format-desc {
     font-size: 0.88rem;
-    color: var(--warm-gray);
+    color: #ffffff;
     line-height: 1.6;
   }
 
@@ -360,8 +365,9 @@
   }
 
   .red-flags-title {
-    font-family: 'Playfair Display', serif;
+    font-family: Arial, sans-serif;
     font-size: 1rem;
+    font-weight: bold;
     color: #e07070;
     margin-bottom: 16px;
     letter-spacing: 0.04em;
@@ -372,7 +378,7 @@
     gap: 10px;
     margin-bottom: 10px;
     font-size: 0.88rem;
-    color: rgba(245,240,232,0.65);
+    color: #ffffff;
     line-height: 1.5;
   }
 
@@ -415,14 +421,15 @@
     font-size: 0.68rem;
     letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: var(--warm-gray);
+    color: #ffffff;
     margin-bottom: 5px;
   }
 
   .decoder-value {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    color: var(--cream);
+    font-family: Arial, sans-serif;
+    font-size: 1.05rem;
+    font-weight: bold;
+    color: #ffffff;
   }
 
   .decoder-value.outlet-tag {
@@ -432,10 +439,10 @@
   .decoder-note {
     padding: 12px 20px;
     font-size: 0.82rem;
-    color: var(--warm-gray);
+    color: #ffffff;
     line-height: 1.6;
     border-top: 1px solid rgba(196,168,130,0.08);
-    font-style: italic;
+    font-style: normal;
   }
 
   .outlet-badge {
@@ -445,9 +452,9 @@
     background: rgba(184,144,42,0.15);
     border: 1px solid rgba(184,144,42,0.3);
     border-radius: 2px;
-    font-family: 'Cormorant Garamond', serif;
+    font-family: Arial, sans-serif;
     font-size: 0.7rem;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--gold-light);
     vertical-align: middle;
@@ -482,7 +489,7 @@
     border: 1px solid rgba(184,144,42,0.2);
     border-radius: 3px;
     font-size: 0.88rem;
-    color: rgba(245,240,232,0.7);
+    color: #ffffff;
     line-height: 1.7;
   }
   .white-tag-tip strong {
@@ -493,7 +500,7 @@
     margin-top: 56px;
     text-align: center;
     font-size: 0.8rem;
-    color: rgba(138,125,110,0.5);
+    color: rgba(255,255,255,0.5);
     line-height: 1.7;
     letter-spacing: 0.03em;
   }
@@ -521,7 +528,7 @@
     />
     <p class="input-hint">
       Find the creed patch inside your bag — usually in a small interior pocket.<br>
-      Enter the number exactly as stamped (e.g. <em>No. J0972-F13084</em> or <em>No. B1980-38124</em>)
+      Type the number exactly as it appears, for example: <strong>J0972-F13084</strong> or <strong>B1980-38124</strong>
     </p>
     <button class="verify-btn" onclick="verify()">Verify Authenticity</button>
   </div>
