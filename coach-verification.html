@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coach Bag Authenticator</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #f5f0e8;
+    --dark: #1a1410;
+    --gold: #b8902a;
+    --gold-light: #d4a843;
+    --tan: #c4a882;
+    --warm-gray: #8a7d6e;
+    --leather: #7a5c3a;
+    --authentic: #3d6b4f;
+    --fake: #8b2a2a;
+    --warn: #7a5a1e;
+  }
+
+  body {
+    background-color: var(--dark);
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Textured background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+  }
+
+  /* Header */
+  .brand-mark {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  .brand-mark .ornament {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.5em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    opacity: 0.8;
+  }
+
+  .brand-mark h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 6vw, 3.4rem);
+    font-weight: 400;
+    color: var(--cream);
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  .brand-mark h1 em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .brand-mark .subtitle {
+    font-size: 0.95rem;
+    color: var(--warm-gray);
+    letter-spacing: 0.1em;
+    margin-top: 12px;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 32px 0;
+  }
+
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: 0.4;
+  }
+
+  .divider-icon {
+    color: var(--gold);
+    font-size: 1.1rem;
+    opacity: 0.7;
+  }
+
+  /* Input card */
+  .input-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    border: 1px solid rgba(184,144,42,0.2);
+    border-radius: 4px;
+    padding: 40px;
+    margin-bottom: 32px;
+    position: relative;
+  }
+
+  .input-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+
+  .input-label {
+    display: block;
+    font-size: 0.78rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .serial-input {
+    width: 100%;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(184,144,42,0.25);
+    border-radius: 3px;
+    color: var(--cream);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-style: italic;
+    letter-spacing: 0.12em;
+    padding: 18px 22px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .serial-input::placeholder {
+    color: rgba(196,168,130,0.25);
+    font-style: italic;
+  }
+
+  .serial-input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(184,144,42,0.1);
+  }
+
+  .input-hint {
+    margin-top: 12px;
+    font-size: 0.82rem;
+    color: var(--warm-gray);
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .verify-btn {
+    width: 100%;
+    margin-top: 24px;
+    padding: 16px;
+    background: var(--gold);
+    border: none;
+    border-radius: 3px;
+    color: var(--dark);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.25s, transform 0.15s;
+  }
+
+  .verify-btn:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+  }
+
+  .verify-btn:active {
+    transform: translateY(0);
+  }
+
+  /* Result panel */
+  .result {
+    display: none;
+    border-radius: 4px;
+    padding: 32px 36px;
+    margin-bottom: 32px;
+    position: relative;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .result.authentic {
+    background: rgba(61, 107, 79, 0.12);
+    border: 1px solid rgba(61, 107, 79, 0.4);
+  }
+
+  .result.fake {
+    background: rgba(139, 42, 42, 0.1);
+    border: 1px solid rgba(139, 42, 42, 0.4);
+  }
+
+  .result.uncertain {
+    background: rgba(122, 90, 30, 0.1);
+    border: 1px solid rgba(122, 90, 30, 0.4);
+  }
+
+  .result-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+
+  .authentic .result-badge { color: #6dbb8a; }
+  .fake .result-badge { color: #e07070; }
+  .uncertain .result-badge { color: #d4a843; }
+
+  .result-badge .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .authentic .dot { background: #6dbb8a; box-shadow: 0 0 8px rgba(109,187,138,0.6); }
+  .fake .dot { background: #e07070; box-shadow: 0 0 8px rgba(224,112,112,0.6); }
+  .uncertain .dot { background: #d4a843; box-shadow: 0 0 8px rgba(212,168,67,0.6); }
+
+  .result-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.55rem;
+    margin-bottom: 10px;
+    color: var(--cream);
+  }
+
+  .result-era {
+    font-size: 0.88rem;
+    color: var(--tan);
+    margin-bottom: 20px;
+    letter-spacing: 0.04em;
+  }
+
+  .result-details {
+    font-size: 0.95rem;
+    color: rgba(245,240,232,0.75);
+    line-height: 1.8;
+  }
+
+  /* Checklist */
+  .checklist {
+    margin-top: 20px;
+    display: grid;
+    gap: 10px;
+  }
+
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.9rem;
+    color: rgba(245,240,232,0.7);
+    line-height: 1.5;
+  }
+
+  .check-icon {
+    flex-shrink: 0;
+    font-size: 1rem;
+    margin-top: 1px;
+  }
+
+  /* Guide section */
+  .guide {
+    margin-top: 48px;
+  }
+
+  .guide-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--cream);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .guide-heading::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(184,144,42,0.2);
+  }
+
+  .format-grid {
+    display: grid;
+    gap: 16px;
+  }
+
+  .format-card {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(196,168,130,0.1);
+    border-radius: 4px;
+    padding: 22px 26px;
+    transition: border-color 0.25s;
+  }
+
+  .format-card:hover {
+    border-color: rgba(184,144,42,0.25);
+  }
+
+  .format-era {
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .format-example {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--cream);
+    margin-bottom: 8px;
+  }
+
+  .format-desc {
+    font-size: 0.88rem;
+    color: var(--warm-gray);
+    line-height: 1.6;
+  }
+
+  /* Red flags */
+  .red-flags {
+    margin-top: 32px;
+    background: rgba(139, 42, 42, 0.06);
+    border: 1px solid rgba(139, 42, 42, 0.2);
+    border-radius: 4px;
+    padding: 26px 30px;
+  }
+
+  .red-flags-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: #e07070;
+    margin-bottom: 16px;
+    letter-spacing: 0.04em;
+  }
+
+  .red-flag-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 0.88rem;
+    color: rgba(245,240,232,0.65);
+    line-height: 1.5;
+  }
+
+  .red-flag-item:last-child { margin-bottom: 0; }
+
+  /* Decoder card */
+  .decoder-card {
+    margin-top: 24px;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(184,144,42,0.2);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .decoder-heading {
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(184,144,42,0.15);
+    background: rgba(184,144,42,0.05);
+  }
+
+  .decoder-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .decoder-item {
+    padding: 16px 20px;
+    border-right: 1px solid rgba(196,168,130,0.08);
+    border-bottom: 1px solid rgba(196,168,130,0.08);
+  }
+
+  .decoder-item:nth-child(even) { border-right: none; }
+
+  .decoder-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--warm-gray);
+    margin-bottom: 5px;
+  }
+
+  .decoder-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--cream);
+  }
+
+  .decoder-value.outlet-tag {
+    color: var(--gold-light);
+  }
+
+  .decoder-note {
+    padding: 12px 20px;
+    font-size: 0.82rem;
+    color: var(--warm-gray);
+    line-height: 1.6;
+    border-top: 1px solid rgba(196,168,130,0.08);
+    font-style: italic;
+  }
+
+  .outlet-badge {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 8px;
+    background: rgba(184,144,42,0.15);
+    border: 1px solid rgba(184,144,42,0.3);
+    border-radius: 2px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    vertical-align: middle;
+  }
+
+  /* Google search link */
+  .search-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    padding: 10px 18px;
+    background: rgba(184,144,42,0.1);
+    border: 1px solid rgba(184,144,42,0.3);
+    border-radius: 3px;
+    color: var(--gold-light);
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .search-link:hover {
+    background: rgba(184,144,42,0.2);
+    border-color: rgba(184,144,42,0.5);
+  }
+
+  /* White tag tip box */
+  .white-tag-tip {
+    margin-top: 16px;
+    padding: 14px 18px;
+    background: rgba(122,90,30,0.1);
+    border: 1px solid rgba(184,144,42,0.2);
+    border-radius: 3px;
+    font-size: 0.88rem;
+    color: rgba(245,240,232,0.7);
+    line-height: 1.7;
+  }
+  .white-tag-tip strong {
+    color: var(--gold-light);
+  }
+
+  .footer-note {
+    margin-top: 56px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: rgba(138,125,110,0.5);
+    line-height: 1.7;
+    letter-spacing: 0.03em;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="brand-mark">
+    <span class="ornament">✦ Authentication Service ✦</span>
+    <h1>Coach <em>Bag</em><br>Verification</h1>
+    <p class="subtitle">Enter the serial number stamped on the interior creed patch</p>
+  </div>
+
+  <div class="input-card">
+    <label class="input-label" for="serialInput">Serial Number</label>
+    <input
+      type="text"
+      id="serialInput"
+      class="serial-input"
+      placeholder="e.g. J0972-F13084"
+      maxlength="30"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <p class="input-hint">
+      Find the creed patch inside your bag — usually in a small interior pocket.<br>
+      Enter the number exactly as stamped (e.g. <em>No. J0972-F13084</em> or <em>No. B1980-38124</em>)
+    </p>
+    <button class="verify-btn" onclick="verify()">Verify Authenticity</button>
+  </div>
+
+  <div class="result" id="result"></div>
+
+  <div class="guide">
+    <h2 class="guide-heading">Serial Number Formats by Era</h2>
+    <div class="format-grid">
+      <div class="format-card">
+        <div class="format-era">Pre-1994 · Vintage</div>
+        <div class="format-example">No number present</div>
+        <div class="format-desc">Vintage bags from this era have only the creed text stamped into the leather — no style number. Authenticity is verified by leather quality, hardware, and craftsmanship alone.</div>
+      </div>
+      <div class="format-card">
+        <div class="format-era">1994 – 2006 · Classic</div>
+        <div class="format-example">K8P-9870 &nbsp;·&nbsp; E05Q-9950</div>
+        <div class="format-desc">Letter + 1–2 digits + letter, then a dash, then a 4-digit style number. The letters and digits before the dash encode the factory, year, and month of production.</div>
+      </div>
+      <div class="format-card">
+        <div class="format-era">2006 – 2020 · Modern</div>
+        <div class="format-example">B1980-38124 &nbsp;·&nbsp; J0972-F13084</div>
+        <div class="format-desc">Letter + 4 digits, a dash, then a 5-digit style number. Some bags in this era have a letter prefix before the style number (like J0972-F13084). The first segment encodes the factory, year, and production month.</div>
+      </div>
+      <div class="format-card">
+        <div class="format-era">2020 – Present · Current</div>
+        <div class="format-example">H2081-C0769 &nbsp;·&nbsp; L2023-6019 &nbsp;·&nbsp; H2039-601</div>
+        <div class="format-desc">Several new formats launched around 2020: shorter 3–4 digit style numbers, "C"-prefix numbers, and two-letter codes. Bags may also have a QR code or NFC chip for digital authentication via the Coach app.</div>
+      </div>
+    </div>
+
+    <div class="red-flags">
+      <div class="red-flags-title">⚠ Common Signs of a Counterfeit</div>
+      <div class="red-flag-item"><span>✗</span> Serial number printed on paper or a sewn-in tag instead of stamped into leather</div>
+      <div class="red-flag-item"><span>✗</span> Uneven, wobbly, or faded stamp impressions</div>
+      <div class="red-flag-item"><span>✗</span> Creed patch has spelling errors or unusual phrasing</div>
+      <div class="red-flag-item"><span>✗</span> Missing creed patch entirely in a bag that should have one</div>
+      <div class="red-flag-item"><span>✗</span> Serial number does not match the bag's era or style</div>
+      <div class="red-flag-item"><span>✗</span> Hardware feels lightweight, tarnishes quickly, or says "Coach" on the back with raised text that looks poorly cast</div>
+      <div class="red-flag-item"><span>✗</span> Lining fabric is thin, has loose threads, or a strong chemical smell</div>
+    </div>
+  </div>
+
+  <p class="footer-note">
+    This tool provides a format-based assessment only.<br>
+    For definitive authentication, consult a professional appraiser<br>
+    or contact Coach customer service directly.
+  </p>
+
+</div>
+
+<script>
+  // ── MONTH DECODER ──────────────────────────────────────────────────────────
+  // Coach skips "I" to avoid confusion with "1"
+  // A=Jan B=Feb C=Mar D=Apr E=May F=Jun G=Jul H=Aug J=Sep K=Oct L=Nov M=Dec
+  const MONTH_MAP = {
+    A:'January', B:'February', C:'March', D:'April', E:'May', F:'June',
+    G:'July', H:'August', J:'September', K:'October', L:'November', M:'December'
+  };
+
+  // ── YEAR DECODER ───────────────────────────────────────────────────────────
+  // Single digit: 4=1994…9=1999, 0=2000…3=2003
+  // Two digits from 2004 onward: 04=2004, 19=2019 etc.
+  function decodeYear(yearStr) {
+    if (yearStr.length === 1) {
+      const d = parseInt(yearStr);
+      return d >= 4 ? String(1990 + d) : String(2000 + d);
+    }
+    const yr = parseInt(yearStr);
+    return yr >= 94 ? String(1900 + yr) : String(2000 + yr);
+  }
+
+  // ── STYLE PREFIX CLASSIFIER ────────────────────────────────────────────────
+  function styleNote(styleStr) {
+    // All-zeros = sample / limited edition
+    if (/^0+$/.test(styleStr))
+      return { label: 'Sample / Limited Edition', note: 'An all-zero style number indicates a Coach sample bag or limited-edition piece. These are rare — sometimes pre-production prototypes, or special limited runs like the "Original Responsible Leather" Rogues. Authenticity must rely entirely on physical inspection.' };
+    if (styleStr.startsWith('F'))
+      return { label: 'Factory Outlet', note: 'The "F" prefix means this bag was made specifically for Coach Factory Outlet stores. It is a genuine Coach bag — just produced for the outlet channel rather than full-price retail. Quality is slightly different but authenticity is not in question.' };
+    if (styleStr.startsWith('P'))
+      return { label: 'Pilot / First Run', note: 'The "P" prefix indicates a "Pilot" bag — one of the very first production run of this style, made to test market demand before committing to full production. These can be rare if the style never went into full production.' };
+    return null;
+  }
+
+  // ── GOOGLE STYLE SEARCH URL ────────────────────────────────────────────────
+  function googleSearchUrl(styleStr) {
+    // Strip leading letter prefixes (F, P) for cleaner search
+    const num = styleStr.replace(/^[FP]/,'');
+    return `https://www.google.com/search?tbm=isch&q=Coach+bag+style+${encodeURIComponent(num)}`;
+  }
+
+  // ── MAIN VERIFY ────────────────────────────────────────────────────────────
+  function verify() {
+    const raw = document.getElementById('serialInput').value.trim();
+
+    // ── NO INPUT — include white tag guidance ─────────────────────────────
+    if (!raw) {
+      showResult('uncertain',
+        'No Number Entered',
+        'Type the number stamped on the creed patch inside your bag. Can\'t find a number on the creed patch?',
+        [],
+        'Enter the number stamped in the leather.',
+        null,
+        `<div class="white-tag-tip">
+          <strong>Don't see a number on the creed patch?</strong><br>
+          Between 2014 and 2016, Coach moved the style number off the creed patch onto a small white fabric tag sewn inside the bag — often tucked down in a corner of an interior pocket. Check carefully before assuming the number is missing. A blank creed patch space in this era is normal for genuine bags.<br><br>
+          <strong>No number at all?</strong> Very small items (wallets, card cases) sometimes genuinely have no style number. A missing number on a full-size bag is a red flag but not automatic proof of a fake — sample bags and runway pieces also omit numbers.
+        </div>`
+      );
+      return;
+    }
+
+    const cleaned = raw.replace(/^No\.?\s*/i, '').trim().toUpperCase();
+    let verdict, title, era, desc, checks, decoded = null, extra = '';
+
+    // ── SPECIAL: All-zeros on BOTH sides (e.g. 00000-00000) ──────────────────
+    if (/^0+-0+$/.test(cleaned)) {
+      verdict = 'uncertain';
+      title = 'Sample or Limited Edition Bag';
+      era = 'No standard production era';
+      desc = 'All-zero codes on both sides of the dash are used on Coach sample bags, pre-production prototypes, and certain limited editions such as the "Original Responsible Leather" Rogues. These are genuine Coach pieces but cannot be authenticated by style number alone.';
+      checks = [
+        '⚠ All-zero codes mean no style information is encoded — inspect physically',
+        '✔ Look for exceptional leather quality, deep even stitching, and correct hardware',
+        '✔ Check online Coach communities and forums for your specific bag model',
+        '✔ Consider professional authentication for high-value purchases'
+      ];
+      showResult(verdict, title, desc, checks, era, decoded, extra);
+      return;
+    }
+
+    // ── SPECIAL: 1941 Collection model codes (RG, DK, SD + digits) ───────────
+    // These look like style numbers but are model abbreviations, not authentication codes
+    const modelCodes = { RG: 'Rogue', DK: 'Dinky', SD: 'Saddle' };
+    const modelMatch = cleaned.match(/^(RG|DK|SD)-(\d{5})$/);
+    if (modelMatch) {
+      const modelName = modelCodes[modelMatch[1]];
+      verdict = 'uncertain';
+      title = `1941 Collection Model Code — Not a Style Number`;
+      era = `Coach 1941 Collection · ${modelName}`;
+      desc = `This is a "${modelMatch[1]}" model identifier used in early Coach 1941 Collection ${modelName} bags — it is NOT the style/serial number and cannot be used to authenticate the bag on its own. Look inside a small interior pocket for a separate small white sewn-in tag, which will have the actual style number and production details.`;
+      checks = [
+        '⚠ This code identifies the bag model but is not used for authentication',
+        '✔ Look for a small white fabric tag inside a pocket — this has the real style number',
+        '✔ The white tag format will be: Letter + 4 digits – 5 digits (e.g. B1980-38124)',
+        '✔ Enter that style number into this tool for a proper verification'
+      ];
+      showResult(verdict, title, desc, checks, era, decoded, extra);
+      return;
+    }
+
+    // ── ERA 1: 1994–2006  Letter + 1-2 digits + Letter – 4 digits ────────────
+    // e.g. K8P-9870, E05Q-9950
+    if (/^[A-Z]\d{1,2}[A-Z]-\d{4}$/.test(cleaned)) {
+      const parts = cleaned.split('-');
+      const prefix = parts[0];
+      const monthLetter = prefix[0];
+      const yearStr = prefix.slice(1, -1);
+      const factoryLetter = prefix.slice(-1);
+      const styleNum = parts[1];
+      const sn = styleNote(styleNum);
+      decoded = { month: MONTH_MAP[monthLetter] || 'Unknown', year: decodeYear(yearStr), factory: factoryLetter, style: styleNum, stylePrefix: sn };
+
+      verdict = 'authentic';
+      title = 'Format Checks Out';
+      era = 'Classic Era · 1994 – 2006';
+      desc = 'This matches the original Coach style number format from 1994 to 2006. The code before the dash encodes when and where the bag was made; the four-digit number after is the bag style.';
+      checks = [
+        '✔ Format is correct for the 1994–2006 era',
+        '✔ Confirm the stamp is pressed into the leather — not printed on paper or a tag',
+        '✔ Creed text should include "Made in United States" for most bags of this era',
+        '✔ Hardware should be heavy solid brass or silver-tone, stamped "Coach" on the reverse',
+        '✔ If the bag has an original price tag, confirm its style number matches the one inside'
+      ];
+    }
+
+    // ── ERA 2a: 2006–2020  Letter + 4 digits – 5 digits ─────────────────────
+    // e.g. B1980-38124
+    else if (/^[A-Z]\d{4}-\d{5}$/.test(cleaned)) {
+      const parts = cleaned.split('-');
+      const prefix = parts[0];
+      const monthLetter = prefix[0];
+      const year = decodeYear(prefix.slice(1, 3));
+      const factoryCode = prefix.slice(3, 5);
+      const styleNum = parts[1];
+      const sn = styleNote(styleNum);
+      decoded = { month: MONTH_MAP[monthLetter] || 'Unknown', year, factory: factoryCode, style: styleNum, stylePrefix: sn };
+
+      verdict = 'authentic';
+      title = 'Format Checks Out';
+      era = '2006 – 2020 Era';
+      desc = `This matches Coach's style number format used from 2006 through 2020. The first segment encodes the month, year, and factory. The five-digit number after the dash is the bag style number.`;
+      checks = [
+        '✔ Format is correct for the 2006–2020 era',
+        '✔ Confirm the stamp is pressed firmly into the leather creed patch',
+        '✔ Look for "Coach" and "New York" stamped on zipper pulls and hardware backs',
+        '✔ Check lining quality — smooth fabric with no loose threads or chemical smell',
+        '✔ If the bag has an original price tag, confirm its style number matches the one inside'
+      ];
+    }
+
+    // ── ERA 2b: 2006–2020  Letter + 4 digits – Letter + 5 digits ─────────────
+    // e.g. J0972-F13084, M1592-F36704
+    else if (/^[A-Z]\d{4}-[A-Z]\d{5}$/.test(cleaned)) {
+      const parts = cleaned.split('-');
+      const prefix = parts[0];
+      const monthLetter = prefix[0];
+      const year = decodeYear(prefix.slice(1, 3));
+      const factoryCode = prefix.slice(3, 5);
+      const styleNum = parts[1];
+      const sn = styleNote(styleNum);
+      decoded = { month: MONTH_MAP[monthLetter] || 'Unknown', year, factory: factoryCode, style: styleNum, stylePrefix: sn };
+
+      verdict = 'authentic';
+      title = 'Format Checks Out';
+      era = '2006 – 2020 Era';
+      desc = `This matches the Coach style number format from 2006 through 2020. The letter prefix on the style number is a recognized Coach convention used for outlet bags (F), pilot runs (P), and certain collections.`;
+      checks = [
+        '✔ Format is consistent with the 2006–2020 Coach production era',
+        '✔ Confirm the stamp is evenly and deeply impressed into the leather (not printed)',
+        '✔ The creed text should read "This bag was made…" or similar Coach wording',
+        '✔ Zipper pulls should feel heavy, move smoothly, and be engraved "Coach" on the back',
+        '✔ If the bag has an original price tag, confirm its style number matches the one inside'
+      ];
+    }
+
+    // ── ERA 3: 2020–Present ───────────────────────────────────────────────────
+    // H2081-C0769, L2023-6019, H2039-601, D2281-CA123
+    else if (
+      /^[A-Z]\d{4}-C\d{4}$/.test(cleaned)   ||
+      /^[A-Z]\d{4}-\d{3,4}$/.test(cleaned)   ||
+      /^[A-Z]{2}\d{3}-\d{3,5}$/.test(cleaned)||
+      /^[A-Z]\d{4}-[A-Z]{2}\d{3}$/.test(cleaned)
+    ) {
+      const parts = cleaned.split('-');
+      const prefix = parts[0];
+      if (/^[A-Z]\d{4}$/.test(prefix)) {
+        const monthLetter = prefix[0];
+        const year = decodeYear(prefix.slice(1, 3));
+        const factoryCode = prefix.slice(3, 5);
+        decoded = { month: MONTH_MAP[monthLetter] || 'Unknown', year, factory: factoryCode, style: parts[1], stylePrefix: null };
+      }
+
+      verdict = 'authentic';
+      title = 'Format Checks Out';
+      era = 'Modern Era · 2020 – Present';
+      desc = 'This matches one of the newer Coach style number formats introduced around 2020, including shorter 3–4 digit style numbers, "C"-prefix numbers, and two-letter codes. You may also find a QR code or NFC chip on the creed patch.';
+      checks = [
+        '✔ Format is consistent with 2020-era and newer Coach production',
+        '✔ Scan any QR code on the creed patch using the Coach app for digital verification',
+        '✔ Hardware lettering should be crisp and deeply engraved — not raised or poorly cast',
+        '✔ Bag should have an even, quality lining with no chemical smell or loose threads',
+        '✔ If the bag has an original price tag, confirm its style number matches the one inside'
+      ];
+    }
+
+    // ── DIGITS ONLY ──────────────────────────────────────────────────────────
+    else if (/^\d{4}-\d{4}$/.test(cleaned) || /^\d{5,8}$/.test(cleaned)) {
+      verdict = 'uncertain';
+      title = 'Digits-Only Format — Inspect Closely';
+      era = 'Possibly vintage or atypical production';
+      desc = 'A purely numeric code is uncommon for post-1994 Coach bags. It may appear on very early transitional pieces or atypical product lines. Careful physical inspection is especially important here.';
+      checks = [
+        '⚠ Digit-only format is uncommon — inspect the bag carefully in person',
+        '✔ Vintage bags before 1994 often had no serial number at all',
+        '✔ Genuine Coach leather feels supple and has a subtle natural smell — not plastic',
+        '✔ Stitching should be uniform at roughly 8–10 stitches per inch with matching thread'
+      ];
+    }
+
+    // ── NO MATCH ─────────────────────────────────────────────────────────────
+    else {
+      verdict = 'fake';
+      title = 'Format Does Not Match Any Known Coach Style';
+      era = 'No matching era found';
+      desc = `"${raw}" does not match any of Coach's documented style number formats. Counterfeits often use invented number sequences, misspelled creed text, or numbers stamped on paper tags rather than leather.`;
+      checks = [
+        '✗ This format is not recognized as a standard Coach style number',
+        '✗ Check the creed patch for spelling errors, smudged text, or unusual phrasing',
+        '✗ Verify the number is stamped into leather — fakes often print on paper tags',
+        '✗ Consider having the bag reviewed by a professional authenticator or contact Coach directly'
+      ];
+    }
+
+    showResult(verdict, title, desc, checks, era, decoded, extra);
+  }
+
+  // ── RENDER RESULT ──────────────────────────────────────────────────────────
+  function showResult(verdict, title, desc, checks, era, decoded, extra) {
+    const el = document.getElementById('result');
+
+    const badgeText = {
+      authentic: '✦ Format Verified',
+      fake: '✦ Format Unrecognized',
+      uncertain: '✦ Inconclusive — Inspect Carefully'
+    };
+
+    const checkHtml = checks.map(c =>
+      `<div class="check-item"><span class="check-icon">${c[0]}</span><span>${c.slice(1).trim()}</span></div>`
+    ).join('');
+
+    // Build decoder card HTML
+    let decoderHtml = '';
+    if (decoded) {
+      const styleBadge = decoded.stylePrefix
+        ? `<span class="outlet-badge">${decoded.stylePrefix.label}</span>` : '';
+      const styleNoteHtml = decoded.stylePrefix
+        ? `<div class="decoder-note">${decoded.stylePrefix.note}</div>` : '';
+
+      // Extract bare style digits for Google search
+      const styleForSearch = decoded.style.replace(/^[FP]/, '');
+      const searchUrl = `https://www.google.com/search?tbm=isch&q=Coach+bag+style+${encodeURIComponent(styleForSearch)}`;
+
+      decoderHtml = `
+        <div class="decoder-card">
+          <div class="decoder-heading">✦ Production Details Decoded</div>
+          <div class="decoder-grid">
+            <div class="decoder-item">
+              <div class="decoder-label">Month Made</div>
+              <div class="decoder-value">${decoded.month}</div>
+            </div>
+            <div class="decoder-item">
+              <div class="decoder-label">Year Made</div>
+              <div class="decoder-value">${decoded.year}</div>
+            </div>
+            <div class="decoder-item">
+              <div class="decoder-label">Factory Code</div>
+              <div class="decoder-value">${decoded.factory || '—'}</div>
+            </div>
+            <div class="decoder-item">
+              <div class="decoder-label">Style Number</div>
+              <div class="decoder-value ${decoded.stylePrefix ? 'outlet-tag' : ''}">${decoded.style}${styleBadge}</div>
+            </div>
+          </div>
+          ${styleNoteHtml}
+          <div class="decoder-note" style="border-top:1px solid rgba(196,168,130,0.08)">
+            <strong style="color:var(--gold-light)">Next step:</strong> Search the style number to confirm the bag model matches yours. 
+            All bags of the same style share this number regardless of color — if the search shows a different bag model, that's a red flag.<br>
+            <a href="${searchUrl}" target="_blank" class="search-link">🔍 &nbsp;Search Style ${styleForSearch} on Google Images</a>
+          </div>
+        </div>`;
+    }
+
+    el.className = `result ${verdict}`;
+    el.innerHTML = `
+      <div class="result-badge"><span class="dot"></span>${badgeText[verdict]}</div>
+      <div class="result-title">${title}</div>
+      ${era ? `<div class="result-era">${era}</div>` : ''}
+      <div class="result-details">${desc}</div>
+      ${extra || ''}
+      ${decoderHtml}
+      ${checks.length ? `<div class="checklist" style="margin-top:20px">${checkHtml}</div>` : ''}
+    `;
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  document.getElementById('serialInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') verify();
+  });
+</script>
+</body>
+</html>
